@@ -4,7 +4,7 @@ public class Enemy : MonoBehaviour
 {
     private NavMeshAgent pathfinder;
     private Transform target;
-    
+
     void Start()
     {
         pathfinder = GetComponent<NavMeshAgent>();

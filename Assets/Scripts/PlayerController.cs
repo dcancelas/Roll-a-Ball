@@ -14,15 +14,16 @@ public class PlayerController : MonoBehaviour
     private int count;
     private float movementX;
     private float movementY;
+    private Vector3 startPos;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         count = 0;
-
         SetCountText();
         winTextObject.SetActive(false);
+        startPos = this.transform.position;
     }
 
     void OnMove(InputValue movementValue)
@@ -63,8 +64,8 @@ public class PlayerController : MonoBehaviour
                 count--;
                 SetCountText();
             }
+            this.transform.position = startPos;
             other.gameObject.transform.position = new Vector3(9, 1, 9);
-            gameObject.transform.position = new Vector3(0, 1, 0);
         }
     }
 }

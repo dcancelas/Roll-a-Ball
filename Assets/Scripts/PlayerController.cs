@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     void SetCountText()
     {
         countText.text = "Puntos: " + count.ToString();
-        if(count >= 12)
+        if (count >= 10)
         {
             winTextObject.SetActive(true);
         }
@@ -50,12 +50,21 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("PickUp"))
+        if (other.gameObject.CompareTag("PickUp"))
         {
             other.gameObject.SetActive(false);
             count = count + 1;
-
             SetCountText();
+        }
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            if (count > 0)
+            {
+                count--;
+                SetCountText();
+            }
+            other.gameObject.transform.position = new Vector3(9, 1, 9);
+            gameObject.transform.position = new Vector3(0, 1, 0);
         }
     }
 }

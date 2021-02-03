@@ -14,16 +14,15 @@ public class PlayerController : MonoBehaviour
     private int count;
     private float movementX;
     private float movementY;
-    private Vector3 startPos;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         count = 0;
+
         SetCountText();
         winTextObject.SetActive(false);
-        startPos = this.transform.position;
     }
 
     void OnMove(InputValue movementValue)
@@ -45,8 +44,19 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        // Para el teclado
         Vector3 movement = new Vector3(movementX, 0.0f, movementY);
         rb.AddForce(movement * speed);
+
+        // Recogiendo datos del acelerometro
+        Vector3 dir = Vector3.zero;
+        dir.x = -Input.acceleration.y;
+        dir.z = Input.acceleration.x;
+        if (dir.sqrMagnitude > 1)
+            dir.Normalize();
+        
+        dir *= Time.deltaTime;
+        transform.Translate(dir * speed);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -64,8 +74,8 @@ public class PlayerController : MonoBehaviour
                 count--;
                 SetCountText();
             }
-            this.transform.position = startPos;
             other.gameObject.transform.position = new Vector3(9, 1, 9);
+            gameObject.transform.position = new Vector3(0, 1, 0);
         }
     }
 }
